@@ -3,7 +3,6 @@ package com.example.employeeapp_backend.controller;
 
 import com.example.employeeapp_backend.dao.CourseDao;
 import com.example.employeeapp_backend.model.Employee;
-import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ public class EmployeeController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/addemp",consumes = "application/json" ,produces = "application/json")
-    public String addemp(@RequestBody Employee e){
+    public Employee addemp(@RequestBody Employee e){
         System.out.println(e.getEmpcode());
         System.out.println(e.getEmpname().toString());
         System.out.println(e.getDesignation().toString());
@@ -30,7 +29,7 @@ public class EmployeeController {
         System.out.println(e.getUsername().toString());
         System.out.println(e.getPassword().toString());
         dao.save(e);
-        return "Employee Added";
+        return e;
     }
 
     @CrossOrigin(origins = "*")
@@ -40,16 +39,18 @@ public class EmployeeController {
         return (List<Employee>)dao.findAll();
     }
 
-
-
-
-
-
-
-    @PostMapping("/searchemp")
-    public String searchemp(){
-        return "Search Employee page";
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/searchemp",consumes = "application/json",produces = "application/json")
+    public List<Employee> searchemp(@RequestBody Employee e){
+        return (List<Employee>)dao.searchEmp(e.getEmpcode());
     }
+
+
+
+
+
+
+
     @PostMapping("/editemp")
     public String editemp(){
         return "Edit employee page";
